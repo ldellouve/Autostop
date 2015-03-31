@@ -10,12 +10,14 @@ global {
 	
 	int nb_stopper <- 1;
 	int nb_automobiliste <- 1;
+	int nb_flag <- 2;
 	
 	init {
 		// creer la map a partir des données de hitchwiki
 		// ou creer le graph
 		create stopper number: nb_stopper ;
 		create automobiliste number: nb_automobiliste ;
+		create ville number: nb_flag;
 		}
 }
 
@@ -27,14 +29,24 @@ species espece_generique {
 	//TODO voir le format d'extraction des cellules à partir de hitchwiki
 	positions pos <- one_of (positions) ; 
 	//telecharger les cellules sur hitwiki
-	positions id_point_origine;
-	positions id_point_destination;
+//	flag id_point_origine;
+//	flag id_point_destination;
 	// un tableau de point de passages?
 	
+//	
+//	init {
+//		id_point_origine.pos <- pos;
+//		id_point_destination.pos <- one_of (positions);
+//	}
+}
+
+species ville {
+	positions pos;
+	float taille <- 2;
+	rgb couleur <- #black;
 	
-	init {
-		id_point_origine <- pos;
-		id_point_destination <- one_of (positions);
+	aspect base {
+		draw circle(taille) color: couleur;
 	}
 }
 
@@ -94,6 +106,7 @@ species automobiliste parent: espece_generique {
 	}
 }
 
+
 grid positions width: 10 height: 10 neighbours: 4 {
 	list<positions> neighbours  <- (self neighbours_at 2); 
 }
@@ -102,6 +115,7 @@ experiment stopper_simu1 type: gui {
 	output {
 		display city_display type:opengl {
 			grid positions lines: #black ;
+			species ville aspect: base;
 			species stopper aspect: base ;
 			species automobiliste aspect: base ;
 		}
