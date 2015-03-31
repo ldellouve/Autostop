@@ -93,7 +93,7 @@ species automobiliste parent: espece_generique {
 
 	
 	positions choose_cell {
-		positions myCell_tmp <- positions(shuffle(pos.neighbours)) ;
+		positions myCell_tmp <- positions(shuffle(pos.neighbours));
 		if myCell_tmp != nil {
 			return myCell_tmp;
 		} else {
