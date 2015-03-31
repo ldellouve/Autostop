@@ -8,8 +8,8 @@ global {
 	regarder ce que sont les fichier .shp
 	*/
 	
-	int nb_stopper <- 3;
-	int nb_automobiliste <- 10;
+	int nb_stopper <- 1;
+	int nb_automobiliste <- 1;
 	
 	init {
 		// creer la map a partir des données de hitchwiki
@@ -42,9 +42,21 @@ species stopper parent: espece_generique {
 	rgb couleur <- #blue;
 	string nom <- "toto";
 	list<automobiliste> possibilite update: automobiliste inside (pos);
+	//automobiliste monConducteur <- automobiliste inside (pos);
 	//TODO se deplacer avec l'automobiliste, pour l'instant si jamais il a la meme destination!
-	reflex accepteTrajet when: (! empty(possibilite))  {
-		
+	
+	reflex deplace when: (!empty(possibilite))  {
+		pos <- choose_cell();
+		location <- pos.location;
+	}
+	
+	positions choose_cell {
+		positions myCell_tmp <- positions(shuffle(pos.neighbours)) ;
+		if myCell_tmp != nil {
+			return myCell_tmp;
+		} else {
+			return one_of (pos.neighbours);
+		} 
 	}
 	
 	aspect base {
