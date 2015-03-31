@@ -41,12 +41,18 @@ species espece_generique {
 species stopper parent: espece_generique {
 	rgb couleur <- #blue;
 	string nom <- "toto";
+	float taille <- 1.5;
+	automobiliste monConducteur <- nil;
 	list<automobiliste> possibilite update: automobiliste inside (pos);
 	//automobiliste monConducteur <- automobiliste inside (pos);
 	//TODO se deplacer avec l'automobiliste, pour l'instant si jamais il a la meme destination!
 	
-	reflex deplace when: (!empty(possibilite))  {
-		pos <- choose_cell();
+	reflex accepteTrajet when: (!empty(possibilite))  {
+		monConducteur <- possibilite[0];
+	}
+	
+	reflex deplace when: (monConducteur != nil) {
+		pos <- monConducteur.pos;
 		location <- pos.location;
 	}
 	
