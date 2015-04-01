@@ -14,29 +14,26 @@ Différentes stratégies pour les stoppeurs ont été imaginées :
 
 Le but est d'estimer quelle stratégie est la plus viable, suivant différents paramètres variables :
 - la distance totale du trajet et sa complexité (Paris => Nice, longue distance, beaucoup d'emplacements, Paris => Clermont, plus courte distance, moins d'emplacements),
-- la durée d'attente minimum d'attente (le temps de trouver où l'on est, où se placer, quel panneau de direction utiliser, qui dépend de la stratégie),
+- la durée d'attente minimum (le temps de trouver où l'on est, où se placer, quel panneau de direction utiliser, qui dépend de la stratégie),
 - la probabilité que les voitures s'arrêtent suivant la stratégie (sans panneau, plus d'arrêts, mais trajets plus courts, avec panneau de grande distance, moins d'arrêtes mais plus ciblés),
 - potentiellement les erreurs de "navigations" liés à la mauvaise connaissance du trajet et des emplacements en fonction du temps que l'on prend à réfléchir à la stratégie.
 
-Obtenir des estimations statistiques grâce au modèle suivant les stratégie pour connaître leur viabilité en terme de sécurité / durée (et suivant les types de trajet?)
+Obtenir des estimations statistiques grâce au modèle suivant les stratégie pour connaître leur viabilité en terme de sécurité / durée (et suivant les types de trajet).
 
 
 ************** DIFFICULTE ****************
-- une difficulté potentielle est de récupérer le réseau autoroutier Francais au formet OSM ou directement Shapefile 
-(utilisable par Gama), la zone étant très étendue (si c'est trop dur a trouver il doit etre possible de restreindre l'étendue).
+- une difficulté potentielle est de récupérer le réseau autoroutier Francais au format OSM ou directement Shapefile (utilisable par Gama), la zone étant très étendue (si c'est trop dur a trouver il doit etre possible de restreindre l'étendue).
 
 - En faisant varier la distribution des autostopeurs/destinations, on peut voir des phénomènes interessant émerger du type: "la meilleur stratégie individuelle n'est pas la meilleur pour le reseau" car les auto-stoppeurs peuvent avoir interet a faire des détours si ca permet d'arriver plus vite alors que collectivement cela encombre les voitures inutilement. Il faut donc penser a observer aussi le bien-etre social.
 
-- Commencez par un modèle simple (autostopeur aléatoire, réseau aléatoire, destination aléatoire), 
-faites le marcher pour ensuite le complexifier (carte réelle, stratégies, ...). 
-Rien qu'avec l'étude de l'impact du type de réseau et des distributions initiales vous pouvez avoir des résultats intéressants.
+- Commencez par un modèle simple (autostopeur aléatoire, réseau aléatoire, destination aléatoire), faites le marcher pour ensuite le complexifier (carte réelle, stratégies, ...). Rien qu'avec l'étude de l'impact du type de réseau et des distributions initiales vous pouvez avoir des résultats intéressants.
 
 
 ************* SOLUTION *****************
-m'intéresser plus, du coup à l'aspect sociologique / décisionnel / statistique du point de vue du stoppeur.
+M'intéresser plus, du coup à l'aspect sociologique / décisionnel / statistique du point de vue du stoppeur.
 
 D'un point de vue pratique, je pensais proposer directement au stoppeur un "déplacement possible" 
-(dont je n'ai pas encore défini clairement l'implémentation) et qui permet aux l'agents stoppeurs de se rendre d'un point A à un point B en un certains temps 
+(dont je n'ai pas encore défini clairement l'implémentation) et qui permet aux agents stoppeurs de se rendre d'un point A à un point B en un certains temps 
 (pseudo/aléatoire, non dépendant du réseau routier) : c'est alors à l'agent stoppeur de décider d'utiliser ou non ce moyen de transport, 
 et à quel moment il souhaite le quitter ce moyen de transport et s'il souhaite l'emprunter.
 
@@ -44,3 +41,9 @@ et à quel moment il souhaite le quitter ce moyen de transport et s'il souhaite l
 (a moins que ce ne soit juste un calcul de distance, qui serait équivalent d'un graphe complet... encore plus simple). 
 Ceci dit, il ne sera pas si gros, donc avec quelques hypothèses et/ou un peu de travail manuel, 
 c'est tout a fait faisable (et comparable a un graphe aléatoire au passage).
+
+************* REALISATION *****************
+Toutes les fonctionnalités qui devaient être implémentées ne l'ont pas été malheureusement. Des autostoppeurs, symbolisés en bleu, attendent le passage d'un automobiliste à un point fixé au départ.
+Les automobilistes sont en rouge et se déplacent aléatoirement jusqu'à avoir trouvé une ville. Les villes sont en noires.
+Si un automobiliste rencontre un stoppeur celui le suivra jusqu'à l'arrivée dans une ville.
+Les paramètres initiaux sont réglables dans la simulation ainsi que la taille de la grille.
