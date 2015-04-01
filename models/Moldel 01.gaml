@@ -1,35 +1,31 @@
 model autostopper_normal
 
 global {
-	/* Les includes sont inutiles???
-	ajouter les fichier pour construire le graph depuis hitchwiki
-	file shape_file_bounds <- file("../includes/bounds.shp");
-	file positions <- file("../includes/Vegetation.shp");
-	regarder ce que sont les fichier .shp
-	*/
-	
 	int nb_stopper <- 2;
 	int nb_automobiliste <- 3;
 	int nb_ville <- 5;
+	int grid_width <- 10;
+	int grid_height <- 10;
 	
 	init {
-		// creer la map a partir des données de hitchwiki
-		// ou creer le graph
 		create stopper number: nb_stopper ;
 		create automobiliste number: nb_automobiliste ;
 		create ville number: nb_ville;
+		
+		// Création de la carte
+		//file shape_file_bounds <- file("../includes/bounds.shp");
+		//file positions <- file("../includes/Vegetation.shp");
 		}
 }
 
 
 species espece_generique {
 	float taille <- 1.0;
-	positions pos <- one_of (positions) ; 
+	positions pos <- one_of (positions) ;
 }
 
 species ville {
-	positions pos;
-	float taille <- 2;
+	float taille <- 2.0;
 	rgb couleur <- #black;
 	int villeID <- 1;
 	
@@ -111,17 +107,23 @@ species automobiliste parent: espece_generique {
 }
 
 
-grid positions width: 10 height: 10 neighbours: 4 {
-	list<positions> neighbours  <- (self neighbours_at 2); 
+grid positions width: grid_width height: grid_height neighbours: 4 {
+	list<positions> neighbours  <- (self neighbours_at 1);
 }
 
 experiment stopper_simu1 type: gui {
+	parameter "Nombre initial de stopper : " var: nb_stopper  min: 2 max: 1000 category: "Stopper" ;
+	parameter "Nombre initial de automobiliste : " var: nb_automobiliste  min: 3 max: 1000 category: "Automobiliste" ;
+	parameter "Nombre initial de ville : " var: nb_ville  min: 5 max: 1000 category: "Ville" ;
+	parameter "Largeur de la grille : " var: grid_width  min: 10 max: 100 category: "Grille" ;
+	parameter "Hauteur de la grille : " var: grid_height  min: 10 max: 100 category: "Grille" ;
+	
 	output {
 		display city_display type:opengl {
-			grid positions lines: #black ;
+			grid positions lines: #black;
 			species ville aspect: base;
-			species stopper aspect: base ;
-			species automobiliste aspect: base ;
+			species stopper aspect: base;
+			species automobiliste aspect: base;
 		}
 	}
 	
